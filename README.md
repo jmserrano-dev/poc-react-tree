@@ -1,6 +1,7 @@
 # POC- React Tree
 
 ## Features
+- Virtualized
 - Lazy load by level
 - Remove node
 - Drag and drop node
