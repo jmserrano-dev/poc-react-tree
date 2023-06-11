@@ -11,7 +11,7 @@ import { useCallback } from "react";
 export const MyTree = () => {
   const handleLoad: TreeOnLoadType<MyTreeNodeData> = useCallback((node) => {
     const DELAY_IN_MS = 500;
-    const NUMBER_OF_ELEMENTS_FOR_LEVEL = 100;
+    const NUMBER_OF_ELEMENTS_FOR_LEVEL = 10;
 
     return new Promise((resolve) => {
       setTimeout(() => {

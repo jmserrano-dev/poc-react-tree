@@ -2,7 +2,7 @@ main {
   display: grid;
   height: 100%;
   grid-template-rows: auto 1fr;
-  padding 20px;
+  padding: 20px;
 }
 
 main > div {

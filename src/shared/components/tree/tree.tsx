@@ -1,10 +1,10 @@
-import React, { useMemo } from "react";
-import { TreeNode, TreeNodeInternal, getAllNodes } from "./models/tree.model";
 import { TreeOnDragType, useTreeDraggable } from "./hooks/tree-draggable.hook";
 import { TreeOnLoadType, TreeOnRemoveType, useTree } from "./hooks/tree.hook";
 
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList } from "react-window";
+import React from "react";
+import { TreeNode } from "./models/tree.model";
 
 export type TreeNodeComponent<TData> = (_: {
   level: number;
