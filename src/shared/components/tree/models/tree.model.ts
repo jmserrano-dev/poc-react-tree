@@ -93,6 +93,23 @@ export const removeNode = <TData>(
   } as TreeNodeInternal<TData>;
 };
 
+export const setStatusNode = <TData>(
+  rootNode: TreeNodeInternal<TData>,
+  node: TreeNode<TData>,
+  loading: boolean
+): TreeNodeInternal<TData> => {
+  if (rootNode.id === node.id) {
+    return { ...rootNode, loading } as TreeNodeInternal<TData>;
+  }
+
+  return {
+    ...rootNode,
+    children: rootNode.children.map((rootNode) =>
+      setStatusNode(rootNode, node, loading)
+    ),
+  } as TreeNodeInternal<TData>;
+};
+
 export const getAllNodes = <TData>(
   nodes: TreeNodeInternal<TData>[],
   level = 0

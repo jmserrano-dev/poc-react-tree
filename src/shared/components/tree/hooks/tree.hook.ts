@@ -1,6 +1,6 @@
-import { TreeNode, TreeNodeInternal } from "../models/tree.model";
+import { TreeNode, TreeNodeInternal, getAllNodes } from "../models/tree.model";
 import { TreeReducer, treeReducer } from "../state/tree.reducer";
-import { useEffect, useReducer } from "react";
+import { useEffect, useMemo, useReducer } from "react";
 
 export type TreeOnLoadType<TData> = (
   node: TreeNode<TData> | null
@@ -20,6 +20,10 @@ export const useTree = <TData>({ onLoad, onRemove }: UseTreeProps<TData>) => {
     nodes: [],
   });
 
+  const tree = useMemo((): TreeNodeInternal<TData>[] => {
+    return getAllNodes(state.nodes);
+  }, [state.nodes]);
+
   useEffect(() => {
     onLoad(null).then((nodes) => {
       dispatch({ type: "INITIALIZE", payload: { nodes } });
@@ -30,13 +34,27 @@ export const useTree = <TData>({ onLoad, onRemove }: UseTreeProps<TData>) => {
     if (node.childrenLoaded) {
       dispatch({ type: "TOGGLE_NODE", payload: { node } });
     } else {
-      onLoad(node).then((nodes) => {
-        dispatch({
-          type: "ADD_NODES",
-          payload: { parentNode: node, childrenNodes: nodes },
+      dispatch({ type: "SET_STATUS_NODE", payload: { node, loading: true } });
+
+      onLoad(node)
+        .then((nodes) => {
+          dispatch({
+            type: "ADD_NODES",
+            payload: { parentNode: node, childrenNodes: nodes },
+          });
+        })
+        .then(() => {
+          dispatch({
+            type: "TOGGLE_NODE",
+            payload: { node },
+          });
+        })
+        .finally(() => {
+          dispatch({
+            type: "SET_STATUS_NODE",
+            payload: { node, loading: false },
+          });
         });
-        dispatch({ type: "TOGGLE_NODE", payload: { node } });
-      });
     }
   };
 
@@ -47,7 +65,7 @@ export const useTree = <TData>({ onLoad, onRemove }: UseTreeProps<TData>) => {
   };
 
   return {
-    state,
+    tree,
     dispatch,
     handleToggle,
     handleRemove,

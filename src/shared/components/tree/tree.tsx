@@ -17,14 +17,20 @@ export type TreeNodeComponent<TData> = (_: {
 }) => JSX.Element;
 
 type TreeProps<TData> = {
+  nodeHeigth: number;
   Node: TreeNodeComponent<TData>;
   onLoad: TreeOnLoadType<TData>;
   onDrag: TreeOnDragType<TData>;
   onRemove: TreeOnRemoveType<TData>;
 };
 
-export function Tree<TData>({ Node, onDrag, ...props }: TreeProps<TData>) {
-  const { state, dispatch, handleToggle, handleRemove } = useTree(props);
+export function Tree<TData>({
+  nodeHeigth,
+  Node,
+  onDrag,
+  ...props
+}: TreeProps<TData>) {
+  const { tree, dispatch, handleToggle, handleRemove } = useTree(props);
 
   const draggablePropsFn = useTreeDraggable<TData>((node, parentNode) => {
     onDrag(node, parentNode).then(() => {
@@ -32,21 +38,17 @@ export function Tree<TData>({ Node, onDrag, ...props }: TreeProps<TData>) {
     });
   });
 
-  const nodes = useMemo((): TreeNodeInternal<TData>[] => {
-    return getAllNodes(state.nodes);
-  }, [state.nodes]);
-
   return (
     <AutoSizer>
       {({ width, height }) => (
         <FixedSizeList
-          itemSize={35}
           width={width}
           height={height}
-          itemCount={nodes.length}
+          itemSize={nodeHeigth}
+          itemCount={tree.length}
         >
           {({ index, style }) => {
-            const node = nodes[index];
+            const node = tree[index];
 
             return (
               <Node

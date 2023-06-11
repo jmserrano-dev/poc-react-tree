@@ -1,7 +1,8 @@
 import { AddNodesAction } from "./actions/add-nodes.action";
-import { InitializeAction } from "./actions/initualize.action";
+import { InitializeAction } from "./actions/initialize.action";
 import { MoveNodeAction } from "./actions/move-node.action";
 import { RemoveNodeAction } from "./actions/remove-nodeAction";
+import { SetStatusNodeAction } from "./actions/set-status-node.action";
 import { ToggleNodeAction } from "./actions/toggle-node.action";
 import { TreeNodeInternal } from "../models/tree.model";
 
@@ -14,4 +15,5 @@ export type TreeAction<TData> =
   | ToggleNodeAction<TData>
   | AddNodesAction<TData>
   | RemoveNodeAction<TData>
-  | MoveNodeAction<TData>;
+  | MoveNodeAction<TData>
+  | SetStatusNodeAction<TData>;

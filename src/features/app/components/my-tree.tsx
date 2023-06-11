@@ -10,23 +10,34 @@ import { useCallback } from "react";
 
 export const MyTree = () => {
   const handleLoad: TreeOnLoadType<MyTreeNodeData> = useCallback((node) => {
+    const DELAY_IN_MS = 500;
     const NUMBER_OF_ELEMENTS_FOR_LEVEL = 100;
 
-    if (node == null) {
-      return Promise.resolve(
-        Array.from({ length: NUMBER_OF_ELEMENTS_FOR_LEVEL }, (_, index) => ({
-          id: index + 1,
-          data: { myProperty: "property" },
-        }))
-      );
-    }
-
-    return Promise.resolve(
-      Array.from({ length: NUMBER_OF_ELEMENTS_FOR_LEVEL }, (_, index) => ({
-        id: node.id * NUMBER_OF_ELEMENTS_FOR_LEVEL + index + 1,
-        data: { myProperty: "property" },
-      }))
-    );
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        if (node == null) {
+          resolve(
+            Array.from(
+              { length: NUMBER_OF_ELEMENTS_FOR_LEVEL },
+              (_, index) => ({
+                id: index + 1,
+                data: { myProperty: "property" },
+              })
+            )
+          );
+        } else {
+          resolve(
+            Array.from(
+              { length: NUMBER_OF_ELEMENTS_FOR_LEVEL },
+              (_, index) => ({
+                id: node.id * NUMBER_OF_ELEMENTS_FOR_LEVEL + index + 1,
+                data: { myProperty: "property" },
+              })
+            )
+          );
+        }
+      }, DELAY_IN_MS);
+    });
   }, []);
 
   const handleDrag: TreeOnDragType<MyTreeNodeData> = useCallback(() => {
@@ -39,6 +50,7 @@ export const MyTree = () => {
 
   return (
     <Tree
+      nodeHeigth={40}
       Node={MyTreeNode}
       onLoad={handleLoad}
       onDrag={handleDrag}

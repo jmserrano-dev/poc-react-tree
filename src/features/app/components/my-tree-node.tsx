@@ -28,8 +28,9 @@ export const MyTreeNode: TreeNodeComponent<MyTreeNodeData> = ({
       style={{ ...style, paddingLeft: 20 * level }}
       onClick={handleToggle}
     >
-      {expanded ? <span>⬇️</span> : undefined}
-      {!expanded ? <span>▶️</span> : undefined}
+      {expanded && <span>⬇️</span>}
+      {!expanded && <span>▶️</span>}
+      {loading && <span>⏳</span>}
       <span>LABEL {node.id}</span>
       <span onClick={handleRemove}>🗑️</span>
     </li>
