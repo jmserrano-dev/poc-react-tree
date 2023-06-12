@@ -23,6 +23,9 @@ export const MyTree = () => {
               (_, index) => ({
                 id: index + 1,
                 data: { myProperty: "property" },
+                children: [{
+                  id: (index + 1) * NUMBER_OF_ELEMENTS_FOR_LEVEL + 1,
+                }]
               })
             )
           );
