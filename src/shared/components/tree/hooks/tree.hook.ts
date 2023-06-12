@@ -10,12 +10,17 @@ export type TreeOnRemoveType<TData> = (
   node: TreeNode<TData> | null
 ) => Promise<void>;
 
+export type TreeOnSelectType<TData> = (
+  node: TreeNode<TData> | null
+) => void;
+
 type UseTreeProps<TData> = {
   onLoad: TreeOnLoadType<TData>;
   onRemove: TreeOnRemoveType<TData>;
+  onSelect: TreeOnSelectType<TData>;
 };
 
-export const useTree = <TData>({ onLoad, onRemove }: UseTreeProps<TData>) => {
+export const useTree = <TData>({ onLoad, onRemove, onSelect }: UseTreeProps<TData>) => {
   const [state, dispatch] = useReducer<TreeReducer<TData>>(treeReducer, {
     nodes: [],
   });
@@ -64,10 +69,16 @@ export const useTree = <TData>({ onLoad, onRemove }: UseTreeProps<TData>) => {
     });
   };
 
+  const handleSelect = (node: TreeNodeInternal<TData>) => {
+    dispatch({ type: "SELECT_NODE", payload: { node } });
+    onSelect(node);
+  };
+
   return {
     tree,
     dispatch,
     handleToggle,
     handleRemove,
+    handleSelect
   };
 };
