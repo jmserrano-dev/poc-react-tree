@@ -8,8 +8,10 @@ export const MyTreeNode: TreeNodeComponent<MyTreeNodeData> = ({
   style,
   loading,
   expanded,
+  selected,
   onToggle,
   onRemove,
+  onSelect,
   ...props
 }) => {
   const handleToggle = (event: React.MouseEvent<HTMLElement>) => {
@@ -22,16 +24,20 @@ export const MyTreeNode: TreeNodeComponent<MyTreeNodeData> = ({
     onRemove();
   };
 
+  const handleOnSelect = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    onSelect();
+  };
+
   return (
     <li
       {...props}
-      style={{ ...style, paddingLeft: 20 * level }}
-      onClick={handleToggle}
+      style={{ ...style, paddingLeft: 20 * level, backgroundColor: selected ? "lightblue" : "transparent" }}
     >
-      {expanded && <span>⬇️</span>}
-      {!expanded && <span>▶️</span>}
+      {expanded && <span onClick={handleToggle}>⬇️</span>}
+      {!expanded && <span onClick={handleToggle}>▶️</span>}
       {loading && <span>⏳</span>}
-      <span>LABEL {node.id}</span>
+      <span onClick={handleOnSelect}>LABEL {node.id}</span>
       <span onClick={handleRemove}>🗑️</span>
     </li>
   );
