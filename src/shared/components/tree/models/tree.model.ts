@@ -1,8 +1,10 @@
-export type TreeNode<TData> = Pick<TreeNodeInternal<TData>, "id" | "data">;
+export type TreeNode<TData> = Pick<TreeNodeInternal<TData>, "id" | "data"> & {
+  children?: TreeNode<TData>[];
+}
 
 export type TreeNodeInternal<TData> = {
   id: number;
-  data: TData;
+  data?: TData;
   level?: number;
   loading: boolean;
   expanded: boolean;
@@ -15,10 +17,10 @@ export const initializeNode = <TData>(
 ): TreeNodeInternal<TData> => {
   return {
     ...node,
-    children: [],
+    children: node.children?.map(initializeNode) ?? [],
     loading: false,
     expanded: false,
-    childrenLoaded: false,
+    childrenLoaded: !!node.children?.length,
   };
 };
 
