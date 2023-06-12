@@ -1,0 +1,23 @@
+.my-tree-node {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  height: 100%;
+
+  border-radius: 8px;
+  padding: 0 8px;
+  margin-left: calc(20px * var(--my-tree-node-level));
+}
+
+.my-tree-node:hover {
+  background-color: lightgray;
+}
+
+.my-tree-node.my-tree-node--selected {
+  background-color: lightblue;
+}
+
+.my-tree-node > .my-tree-node__label {
+  flex-grow: 1;
+}
