@@ -32,7 +32,11 @@ export const MyTreeNode: TreeNodeComponent<MyTreeNodeData> = ({
   return (
     <li
       {...props}
-      style={{ ...style, paddingLeft: 20 * level, backgroundColor: selected ? "lightblue" : "transparent" }}
+      style={{
+        ...style,
+        paddingLeft: 20 * level,
+        backgroundColor: selected ? "lightblue" : "transparent",
+      }}
     >
       {expanded && <span onClick={handleToggle}>⬇️</span>}
       {!expanded && <span onClick={handleToggle}>▶️</span>}

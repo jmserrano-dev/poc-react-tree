@@ -4,9 +4,9 @@ import {
   TreeOnDragType,
   TreeOnLoadType,
   TreeOnRemoveType,
+  TreeOnSelectType,
 } from "../../../shared/components/tree";
 
-import { TreeOnSelectType } from "../../../shared/components/tree/hooks/tree.hook";
 import { useCallback } from "react";
 
 export const MyTree = () => {
@@ -49,9 +49,12 @@ export const MyTree = () => {
     return Promise.resolve();
   }, []);
 
-  const handleOnSelect: TreeOnSelectType<MyTreeNodeData> = useCallback((node) => {
-    console.info(node);
-  }, []);
+  const handleOnSelect: TreeOnSelectType<MyTreeNodeData> = useCallback(
+    (node) => {
+      console.info(node);
+    },
+    []
+  );
 
   return (
     <Tree
