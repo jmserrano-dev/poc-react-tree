@@ -1,15 +1,20 @@
+import './my-tree-node.css'
+import './my-tree.css'
+
 import { MyTreeNode, MyTreeNodeData } from "./my-tree-node";
 import {
   Tree,
+  TreeNodeComponentRef,
   TreeOnDragType,
   TreeOnLoadType,
   TreeOnRemoveType,
   TreeOnSelectType,
 } from "../../../shared/components/tree";
-
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 
 export const MyTree = () => {
+  const treeRef = useRef<TreeNodeComponentRef>(null);
+  
   const handleLoad: TreeOnLoadType<MyTreeNodeData> = useCallback((node) => {
     const DELAY_IN_MS = 500;
     const NUMBER_OF_ELEMENTS_FOR_LEVEL = 10;
@@ -59,14 +64,26 @@ export const MyTree = () => {
     []
   );
 
+  const handleUnSelect = () => {
+    treeRef.current?.unSelect();
+  }
+
   return (
-    <Tree
-      nodeHeigth={40}
-      Node={MyTreeNode}
-      onLoad={handleLoad}
-      onDrag={handleDrag}
-      onRemove={handleRemove}
-      onSelect={handleOnSelect}
-    />
+    <>
+      <div>
+        <button type="button" onClick={handleUnSelect} >UnSelect</button>
+      </div>
+      <div className='tree-container'>
+        <Tree
+          ref={treeRef}
+          nodeHeigth={40}
+          Node={MyTreeNode}
+          onLoad={handleLoad}
+          onDrag={handleDrag}
+          onRemove={handleRemove}
+          onSelect={handleOnSelect}
+        />
+      </div>
+    </>
   );
 };

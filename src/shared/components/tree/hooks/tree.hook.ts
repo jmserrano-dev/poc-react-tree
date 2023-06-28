@@ -74,11 +74,16 @@ export const useTree = <TData>({ onLoad, onRemove, onSelect }: UseTreeProps<TDat
     onSelect(node);
   };
 
+  const handleUnSelect = () => {
+    dispatch({type: 'UNSELECT_NODE'});
+  }
+
   return {
     tree,
     dispatch,
     handleToggle,
     handleRemove,
-    handleSelect
+    handleSelect,
+    handleUnSelect
   };
 };

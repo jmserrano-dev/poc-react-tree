@@ -6,6 +6,7 @@ import { SelectNodeAction } from "./actions/select-node.action";
 import { SetStatusNodeAction } from "./actions/set-status-node.action";
 import { ToggleNodeAction } from "./actions/toggle-node.action";
 import { TreeNodeInternal } from "../models/tree.model";
+import { UnSelectNodeAction } from './actions/unselect-node.action';
 
 export type TreeState<TData> = {
   nodes: TreeNodeInternal<TData>[];
@@ -18,4 +19,5 @@ export type TreeAction<TData> =
   | RemoveNodeAction<TData>
   | MoveNodeAction<TData>
   | SetStatusNodeAction<TData>
-  | SelectNodeAction<TData>;
+  | SelectNodeAction<TData>
+  | UnSelectNodeAction;

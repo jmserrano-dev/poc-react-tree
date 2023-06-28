@@ -1,10 +1,14 @@
+import React, { Ref, RefAttributes, forwardRef, useImperativeHandle } from "react";
 import { TreeOnDragType, useTreeDraggable } from "./hooks/tree-draggable.hook";
 import { TreeOnLoadType, TreeOnRemoveType, TreeOnSelectType, useTree } from "./hooks/tree.hook";
 
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList } from "react-window";
-import React from "react";
 import { TreeNode } from "./models/tree.model";
+
+export type TreeNodeComponentRef = {
+  unSelect: () => void;
+}
 
 export type TreeNodeComponent<TData> = (_: {
   level: number;
@@ -27,19 +31,26 @@ type TreeProps<TData> = {
   onSelect: TreeOnSelectType<TData>;
 };
 
-export function Tree<TData>({
+export const Tree = forwardRef(<TData extends object>({
   nodeHeigth,
   Node,
   onDrag,
   ...props
-}: TreeProps<TData>) {
-  const { tree, dispatch, handleToggle, handleRemove, handleSelect } = useTree(props);
+}: TreeProps<TData>, ref: Ref<TreeNodeComponentRef>) => {
+  const { tree, dispatch, handleToggle, handleRemove, handleSelect, handleUnSelect } = useTree(props);
 
   const draggablePropsFn = useTreeDraggable<TData>((node, parentNode) => {
     onDrag(node, parentNode).then(() => {
       dispatch({ type: "MOVE_NODE", payload: { node, parentNode } });
     });
   });
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      unSelect: handleUnSelect
+    })
+  )
 
   return (
     <AutoSizer>
@@ -73,4 +84,4 @@ export function Tree<TData>({
       )}
     </AutoSizer>
   );
-}
+}) as <TData extends object> (props: TreeProps<TData> & RefAttributes<TreeNodeComponentRef>) => JSX.Element;
