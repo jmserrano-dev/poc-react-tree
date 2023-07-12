@@ -1,10 +1,6 @@
 main {
   display: grid;
   height: 100%;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto max-content 1fr;
   padding: 20px;
-}
-
-main > div {
-  position: relative;
 }

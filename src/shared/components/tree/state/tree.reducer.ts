@@ -5,6 +5,7 @@ import { removeNodeActionHandler } from "./actions/remove-nodeAction";
 import { selectNodeActionHandler } from "./actions/select-node.action";
 import { setStatusNodeActionHandler } from "./actions/set-status-node.action";
 import { toggleActionHandler } from "./actions/toggle-node.action";
+import { unSelectNodeActionHandler } from "./actions/unselect-node.action";
 import { TreeAction, TreeState } from "./tree.state";
 
 export type TreeReducer<TData> = typeof treeReducer<TData>;
@@ -24,6 +25,7 @@ export const treeReducer = <TData>(
     MOVE_NODE: moveNodeActionHandler,
     SET_STATUS_NODE: setStatusNodeActionHandler,
     SELECT_NODE: selectNodeActionHandler,
+    UNSELECT_NODE: unSelectNodeActionHandler
   };
 
   return actionFn[action.type]?.(state, action) ?? state;

@@ -139,3 +139,14 @@ export const selectNode = <TData>(
     children: rootNode.children.map((rootNode) => selectNode(rootNode, node)),
   } as TreeNodeInternal<TData>;
 };
+
+export const unSelectNode = <TData>(
+  node: TreeNodeInternal<TData>,
+): TreeNodeInternal<TData> => {
+  return {
+    ...node,
+    selected: false,
+    children: node.children.map(unSelectNode),
+  } as TreeNodeInternal<TData>;
+};
+
